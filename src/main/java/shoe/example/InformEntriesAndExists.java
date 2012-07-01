@@ -12,22 +12,33 @@ import javax.ws.rs.Path;
 @Aspect
 @Component
 public class InformEntriesAndExists {
-    @Around(value = "@target(service) && @target(path)", argNames = "jp,service,path")
-    public Object reportRestEndpoints(ProceedingJoinPoint jp, Service service, Path path) throws Throwable {
+    @Around(
+            value = "@target(service) && @target(path)",
+            argNames = "jp,service,path")
+    public Object reportRestEndpoints(
+            ProceedingJoinPoint jp,
+            Service service,
+            Path path) throws Throwable {
         return executeShell(jp, "rest endpoint");
     }
 
     @Around("@target(service)")
-    public Object reportServiceEntry(ProceedingJoinPoint jp, Service service) throws Throwable {
+    public Object reportServiceEntry(
+            ProceedingJoinPoint jp,
+            Service service) throws Throwable {
         return executeShell(jp, "service");
     }
 
     @Around("@target(repository)")
-    public Object reportResourceExecution(ProceedingJoinPoint jp, Repository repository) throws Throwable {
+    public Object reportResourceExecution(
+            ProceedingJoinPoint jp,
+            Repository repository) throws Throwable {
         return executeShell(jp, "repository");
     }
 
-    private Object executeShell(ProceedingJoinPoint jp, String which) throws Throwable {
+    private Object executeShell(
+            ProceedingJoinPoint jp,
+            String which) throws Throwable {
         System.out.printf("%s - start: %s\n", which, jp.getSignature());
         try {
             Object result = jp.proceed();

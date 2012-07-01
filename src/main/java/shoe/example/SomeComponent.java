@@ -13,7 +13,7 @@ public class SomeComponent {
         repository.save(this);
     }
 
-    public void method2() {
+    public void methmuod2() {
         repository.delete("key");
     }
 }
