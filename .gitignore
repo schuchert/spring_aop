@@ -3,3 +3,5 @@ spring_aop.ipr
 spring_aop.iws
 target/
 .idea
+*.log
+*.swp
