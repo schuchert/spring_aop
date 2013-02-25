@@ -7,21 +7,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import javax.ws.rs.Path;
-
 @Aspect
 @Component
 public class InformEntriesAndExists {
-    @Around(
-            value = "@target(service) && @target(path)",
-            argNames = "jp,service,path")
-    public Object reportRestEndpoints(
-            ProceedingJoinPoint jp,
-            Service service,
-            Path path) throws Throwable {
-        return executeShell(jp, "rest endpoint");
-    }
-
     @Around("@target(service)")
     public Object reportServiceEntry(
             ProceedingJoinPoint jp,

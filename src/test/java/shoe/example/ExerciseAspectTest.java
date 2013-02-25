@@ -19,7 +19,7 @@
         SomeComponent component;
 
         @Inject
-        SomeRepository repository;
+        SomeRepositoryImpl repository;
 
         @Inject
         SomeService service;
@@ -29,7 +29,6 @@
 
         private PrintStream originalOut;
         private PrintStream streamSpy;
-        public static final String ANY_STRING = anyString();
 
         @Before
         public void redirectOut() {
@@ -44,20 +43,25 @@
         }
 
         @Test
-        public void shouldProduceNoOutputForComponent() {
+        public void shouldProduceOutputForComponent() {
             component.method1();
-            verifyZeroInteractions(streamSpy);
+            component.method2();
+            verifyPrintfCalled(4);
         }
 
         @Test
         public void shouldProductOutputForRepository() {
             repository.save(this);
-            verify(streamSpy, times(2)).printf(ANY_STRING, ANY_STRING, ANY_STRING);
+            verifyPrintfCalled(2);
         }
 
         @Test
         public void shouldProduceOutputOnRestEndpoint() {
             restEndpoint.method1();
-            verify(streamSpy, times(2)).printf(ANY_STRING, ANY_STRING, ANY_STRING);
+            verifyPrintfCalled(6);
+        }
+
+        private void verifyPrintfCalled(int times) {
+            verify(streamSpy, times(times)).printf(anyString(), anyString(), anyString());
         }
     }
