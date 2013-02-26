@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 @Aspect
 @Component
-public class InformEntriesAndExists {
+public class InformEntriesAndExits {
     public static final String APP_NAME_PROPERTY = "APPLICATION_NAME";
     public static final String PORT_NAME_PROPERTY = "PORT";
 

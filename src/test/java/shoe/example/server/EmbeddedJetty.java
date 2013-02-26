@@ -5,7 +5,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.webapp.WebAppContext;
 import shoe.example.log.SystemLoggerFactory;
-import shoe.example.metrics.InformEntriesAndExists;
+import shoe.example.metrics.InformEntriesAndExits;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -23,8 +23,8 @@ public class EmbeddedJetty implements Runnable {
 
         EmbeddedJetty jetty = new EmbeddedJetty();
         jetty.start();
-        System.setProperty(InformEntriesAndExists.APP_NAME_PROPERTY, "DipExample");
-        System.setProperty(InformEntriesAndExists.PORT_NAME_PROPERTY, "" + jetty.port());
+        System.setProperty(InformEntriesAndExits.APP_NAME_PROPERTY, "DipExample");
+        System.setProperty(InformEntriesAndExits.PORT_NAME_PROPERTY, "" + jetty.port());
         SystemLoggerFactory.get(EmbeddedJetty.class).info(jetty.applicationUrl());
         System.in.read();
         jetty.stop();
@@ -38,7 +38,7 @@ public class EmbeddedJetty implements Runnable {
             try {
                 Thread.sleep(100);
             } catch (java.lang.InterruptedException e) {
-                // do nothing, we were shutting down anyway
+                // do nothing, apparently we were shutting down
             }
         }
     }
