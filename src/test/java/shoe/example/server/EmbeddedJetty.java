@@ -5,6 +5,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.webapp.WebAppContext;
 import shoe.example.log.SystemLoggerFactory;
+import shoe.example.metrics.InformEntriesAndExists;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -19,8 +20,11 @@ public class EmbeddedJetty implements Runnable {
     public static void main(String[] args) throws IOException {
         SystemLoggerFactory.setLevel("org", Level.WARNING);
         SystemLoggerFactory.setLevel(EmbeddedJetty.class, Level.INFO);
+
         EmbeddedJetty jetty = new EmbeddedJetty();
         jetty.start();
+        System.setProperty(InformEntriesAndExists.APP_NAME_PROPERTY, "DipExample");
+        System.setProperty(InformEntriesAndExists.PORT_NAME_PROPERTY, "" + jetty.port());
         SystemLoggerFactory.get(EmbeddedJetty.class).info(jetty.applicationUrl());
         System.in.read();
         jetty.stop();
@@ -50,8 +54,11 @@ public class EmbeddedJetty implements Runnable {
     }
 
     public String applicationUrl() {
-        int port = server.getConnectors()[0].getLocalPort();
-        return String.format("http://%s:%s%s", host, port, CONTEXT_PATH);
+        return String.format("http://%s:%s%s", host, port(), CONTEXT_PATH);
+    }
+
+    public int port() {
+        return server.getConnectors()[0].getLocalPort();
     }
 
     @Override

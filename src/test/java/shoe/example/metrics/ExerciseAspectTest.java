@@ -1,6 +1,6 @@
-package shoe.example;
+package shoe.example.metrics;
 
-import org.junit.After;
+import mockit.NonStrictExpectations;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,12 +8,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import shoe.example.component.SomeComponent;
 import shoe.example.endpoint.SomeRestEndpoints;
+import shoe.example.log.SystemLogger;
 import shoe.example.log.SystemLoggerFactory;
 import shoe.example.repo.SomeRepositoryImpl;
 import shoe.example.service.SomeService;
 
 import javax.inject.Inject;
-import java.io.PrintStream;
 import java.util.logging.Level;
 
 import static org.mockito.Mockito.*;
@@ -29,8 +29,7 @@ public class ExerciseAspectTest {
     SomeService service;
     @Inject
     SomeRestEndpoints restEndpoint;
-    private PrintStream originalOut;
-    private PrintStream streamSpy;
+    private SystemLogger streamSpy;
 
     static {
         SystemLoggerFactory.setLevel("org", Level.SEVERE);
@@ -38,21 +37,19 @@ public class ExerciseAspectTest {
 
     @Before
     public void redirectOut() {
-        originalOut = System.out;
-        streamSpy = mock(PrintStream.class);
-        System.setOut(streamSpy);
-    }
+        streamSpy = mock(SystemLogger.class);
 
-    @After
-    public void restoreOut() {
-        System.setOut(originalOut);
+        new NonStrictExpectations(SystemLoggerFactory.class) {{
+            SystemLoggerFactory.get((String) any);
+            result = streamSpy;
+        }};
     }
 
     @Test
     public void shouldProduceOutputForComponent() {
         component.method1();
         component.method2();
-        verifyPrintfCalled(4);
+        verifyPrintfCalled(8);
     }
 
     @Test
@@ -64,10 +61,10 @@ public class ExerciseAspectTest {
     @Test
     public void shouldProduceOutputOnRestEndpoint() {
         restEndpoint.method1();
-        verifyPrintfCalled(6);
+        verifyPrintfCalled(8);
     }
 
     private void verifyPrintfCalled(int times) {
-        verify(streamSpy, times(times)).printf(anyString(), anyString(), anyString());
+        verify(streamSpy, times(times)).info(anyString(), anyString(), anyString());
     }
 }

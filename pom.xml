@@ -30,6 +30,12 @@
     </repositories>
 
     <dependencies>
+        <!--first to make sure it is before junit-->
+        <dependency>
+            <groupId>com.googlecode.jmockit</groupId>
+            <artifactId>jmockit</artifactId>
+            <version>1.0</version>
+        </dependency>
 
         <!--logback-->
         <dependency>
