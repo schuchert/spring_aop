@@ -1,4 +1,4 @@
-package shoe.example;
+package shoe.example.repo;
 
 public interface SomeRepository {
     public void save(Object o);

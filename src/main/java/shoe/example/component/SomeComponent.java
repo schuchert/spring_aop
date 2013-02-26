@@ -1,4 +1,4 @@
-package shoe.example;
+package shoe.example.component;
 
 public interface SomeComponent {
     void method1();

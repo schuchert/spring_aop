@@ -1,6 +1,7 @@
-package shoe.example;
+package shoe.example.component;
 
 import org.springframework.stereotype.Component;
+import shoe.example.repo.SomeRepositoryImpl;
 
 import javax.inject.Inject;
 

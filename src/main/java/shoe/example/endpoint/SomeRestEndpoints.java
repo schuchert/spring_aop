@@ -1,6 +1,7 @@
-package shoe.example;
+package shoe.example.endpoint;
 
 import org.springframework.stereotype.Service;
+import shoe.example.service.SomeService;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

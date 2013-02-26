@@ -1,4 +1,4 @@
-package shoe.example;
+package shoe.example.service;
 
 public interface SomeService {
     void method1();

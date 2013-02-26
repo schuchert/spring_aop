@@ -1,6 +1,7 @@
-package shoe.example;
+package shoe.example.service;
 
 import org.springframework.stereotype.Service;
+import shoe.example.component.SomeComponent;
 
 import javax.inject.Inject;
 
@@ -16,6 +17,6 @@ public class SomeServiceImpl implements SomeService {
 
     @Override
     public void methodThrowingException() {
-        throw new RuntimeException();
+        throw new RuntimeException("I'm a saboteur, I always fail");
     }
 }

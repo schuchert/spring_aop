@@ -6,7 +6,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import shoe.example.component.SomeComponent;
+import shoe.example.endpoint.SomeRestEndpoints;
 import shoe.example.log.SystemLoggerFactory;
+import shoe.example.repo.SomeRepositoryImpl;
+import shoe.example.service.SomeService;
 
 import javax.inject.Inject;
 import java.io.PrintStream;

@@ -12,15 +12,15 @@ import java.util.logging.Level;
 public class EmbeddedJetty implements Runnable {
     public static final String CONTEXT_PATH = "/DipExample";
     public static final String SRC_MAIN_WEBAPP = "src/main/webapp";
-    public static final String SRC_MAIN_RESOURCES = "src/main/resources";
     public static final String WEB_XML = "/WEB-INF/web.xml";
     public static final String host = "127.0.0.1";
-    public static Server server;
+    public static volatile Server server;
 
     public static void main(String[] args) throws IOException {
+        SystemLoggerFactory.setLevel("org", Level.WARNING);
+        SystemLoggerFactory.setLevel(EmbeddedJetty.class, Level.INFO);
         EmbeddedJetty jetty = new EmbeddedJetty();
         jetty.start();
-        SystemLoggerFactory.setLevel(EmbeddedJetty.class, Level.INFO);
         SystemLoggerFactory.get(EmbeddedJetty.class).info(jetty.applicationUrl());
         System.in.read();
         jetty.stop();
@@ -57,15 +57,7 @@ public class EmbeddedJetty implements Runnable {
     @Override
     public void run() {
         server = new Server(0);
-
-        WebAppContext context = new WebAppContext();
-        context.setServer(server);
-        context.setContextPath(CONTEXT_PATH);
-
-        ResourceCollection resources = new ResourceCollection(new String[]{SRC_MAIN_WEBAPP, SRC_MAIN_RESOURCES});
-        context.setBaseResource(resources);
-        context.setDescriptor(SRC_MAIN_WEBAPP + WEB_XML);
-        server.setHandler(context);
+        server.setHandler(buildWebAppContext());
 
         try {
             server.start();
@@ -73,5 +65,18 @@ public class EmbeddedJetty implements Runnable {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private ResourceCollection buildResourceCollection() {
+        return new ResourceCollection(new String[]{SRC_MAIN_WEBAPP});
+    }
+
+    private WebAppContext buildWebAppContext() {
+        WebAppContext context = new WebAppContext();
+        context.setServer(server);
+        context.setContextPath(CONTEXT_PATH);
+        context.setBaseResource(buildResourceCollection());
+        context.setDescriptor(SRC_MAIN_WEBAPP + WEB_XML);
+        return context;
     }
 }

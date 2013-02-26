@@ -1,4 +1,4 @@
-package shoe.example;
+package shoe.example.repo;
 
 import org.springframework.stereotype.Repository;
 
