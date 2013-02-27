@@ -37,17 +37,17 @@ public class InformEntriesAndExits {
         return String.format("%s.%s.%s", app, hostName(), port);
     }
 
-    @Around("@target(service)")
+    @Around("@target(service) && within(shoe.example..*)")
     public Object reportServiceEntry(ProceedingJoinPoint jp, Service service) throws Throwable {
         return executeShell(jp, "component");
     }
 
-    @Around("@target(component)")
+    @Around("@target(component) && within(shoe.example..*)")
     public Object reportComponentEntry(ProceedingJoinPoint jp, Component component) throws Throwable {
         return executeShell(jp, "component");
     }
 
-    @Around("@target(repository)")
+    @Around("@target(repository) && within(shoe.example..*)")
     public Object reportResourceExecution(ProceedingJoinPoint jp, Repository repository) throws Throwable {
         return executeShell(jp, "repository");
     }

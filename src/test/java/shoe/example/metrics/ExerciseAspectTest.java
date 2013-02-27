@@ -49,19 +49,19 @@ public class ExerciseAspectTest {
     public void shouldProduceOutputForComponent() {
         component.method1();
         component.method2();
-        verifyPrintfCalled(8);
+        verifyPrintfCalled(4);
     }
 
     @Test
     public void shouldProductOutputForRepository() {
         repository.save(this);
-        verifyPrintfCalled(2);
+        verifyPrintfCalled(1);
     }
 
     @Test
     public void shouldProduceOutputOnRestEndpoint() {
         restEndpoint.method1();
-        verifyPrintfCalled(8);
+        verifyPrintfCalled(4);
     }
 
     private void verifyPrintfCalled(int times) {
