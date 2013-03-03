@@ -49,22 +49,22 @@ public class ExerciseAspectTest {
     public void shouldProduceOutputForComponent() {
         component.method1();
         component.method2();
-        verifyPrintfCalled(4);
+        verifyLogInteractionCalled(4);
     }
 
     @Test
     public void shouldProductOutputForRepository() {
         repository.save(this);
-        verifyPrintfCalled(1);
+        verifyLogInteractionCalled(1);
     }
 
     @Test
     public void shouldProduceOutputOnRestEndpoint() {
         restEndpoint.method1();
-        verifyPrintfCalled(4);
+        verifyLogInteractionCalled(4);
     }
 
-    private void verifyPrintfCalled(int times) {
+    private void verifyLogInteractionCalled(int times) {
         verify(streamSpy, times(times)).info(anyString(), anyString(), anyString());
     }
 }

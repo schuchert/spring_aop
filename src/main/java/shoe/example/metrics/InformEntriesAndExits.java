@@ -39,24 +39,24 @@ public class InformEntriesAndExits {
 
     @Around("@target(service) && within(shoe.example..*)")
     public Object reportServiceEntry(ProceedingJoinPoint jp, Service service) throws Throwable {
-        return executeShell(jp, "component");
+        return executeShell(jp);
     }
 
     @Around("@target(component) && within(shoe.example..*)")
     public Object reportComponentEntry(ProceedingJoinPoint jp, Component component) throws Throwable {
-        return executeShell(jp, "component");
+        return executeShell(jp);
     }
 
     @Around("@target(repository) && within(shoe.example..*)")
     public Object reportResourceExecution(ProceedingJoinPoint jp, Repository repository) throws Throwable {
-        return executeShell(jp, "repository");
+        return executeShell(jp);
     }
 
-    private Object executeShell(ProceedingJoinPoint jp, String which) throws Throwable {
+    private Object executeShell(ProceedingJoinPoint jp) throws Throwable {
         CorrelationId.enter();
 
         String className = jp.getSignature().getDeclaringTypeName();
-        MetricName name = new MetricName(group(), className, jp.getSignature().getName(), which);
+        MetricName name = new MetricName(group(), className, jp.getSignature().getName());
 
         SystemLogger targetLogger = SystemLoggerFactory.get(className);
         targetLogger.info("start : %s-%s", jp.getSignature().getName(), CorrelationId.get());
