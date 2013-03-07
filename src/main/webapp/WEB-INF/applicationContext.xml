@@ -13,4 +13,11 @@
     <context:component-scan base-package="shoe.example"/>
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
+    <bean id="exporter" class="org.springframework.jmx.export.MBeanExporter">
+        <property name="beans">
+            <map>
+                <entry key="featureToggles:name=trackMetrics" value-ref="trackMetrics"/>
+            </map>
+        </property>
+    </bean>
 </beans>

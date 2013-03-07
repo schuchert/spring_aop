@@ -61,7 +61,7 @@ public class ExerciseAspectTest {
     @Test
     public void shouldProduceOutputOnRestEndpoint() {
         restEndpoint.method1();
-        verifyLogInteractionCalled(4);
+        verifyLogInteractionCalled(3);
     }
 
     private void verifyLogInteractionCalled(int times) {
