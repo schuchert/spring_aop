@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import shoe.example.log.SystemLogger;
 import shoe.example.log.SystemLoggerFactory;
+import shoe.example.toggles.TrackMetrics;
 
 import javax.inject.Inject;
 
@@ -17,7 +18,7 @@ public class InformEntriesAndExits {
   public static final String APP_NAME_PROPERTY = "APPLICATION_NAME";
   public static final String PORT_NAME_PROPERTY = "PORT";
   @Inject
-  MetricRecorder metricRecorder;
+  TrackMetrics trackMetrics;
 
   @Around("@target(service) && within(shoe.example.service..*)")
   public Object reportServiceEntry(ProceedingJoinPoint jp, Service service) throws Throwable {
@@ -40,20 +41,21 @@ public class InformEntriesAndExits {
     String className = jp.getSignature().getDeclaringTypeName();
     String methodName = jp.getSignature().getName();
 
+    MetricRecorder recorder = new MetricRecorder(trackMetrics, className, methodName);
     SystemLogger targetLogger = SystemLoggerFactory.get(className);
+
     targetLogger.info("start : %s-%s", methodName, CorrelationId.get());
 
-    long start = System.currentTimeMillis();
     boolean success = false;
     try {
-      metricRecorder.enter(className, methodName);
+      recorder.enter();
       Object result = jp.proceed();
       success = true;
       return result;
     } finally {
-      metricRecorder.exit(className, methodName);
+      recorder.exit();
       String result = success ? "finish" : "failure";
-      targetLogger.info("%7s: %s-%s(%dms)", result, methodName, CorrelationId.get(), System.currentTimeMillis() - start);
+      targetLogger.info("%7s: %s-%s(%dms)", result, methodName, CorrelationId.get(), recorder.duration());
       CorrelationId.exit();
     }
   }
