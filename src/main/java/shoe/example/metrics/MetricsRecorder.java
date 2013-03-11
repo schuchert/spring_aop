@@ -13,17 +13,18 @@ import java.net.UnknownHostException;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-public class MetricRecorder {
+public class MetricsRecorder {
   public static final String APP_NAME_PROPERTY = "APPLICATION_NAME";
   public static final String PORT_NAME_PROPERTY = "PORT";
-  private final String className;
-  private final String methodName;
-  private final TrackMetrics trackMetrics;
+
   private TimerContext context;
   private long startTime;
   private long stopTime;
+  private final String className;
+  private final String methodName;
+  private final TrackMetrics trackMetrics;
 
-  public MetricRecorder(TrackMetrics trackMetrics, String className, String methodName) {
+  public MetricsRecorder(TrackMetrics trackMetrics, String className, String methodName) {
     this.className = className;
     this.methodName = methodName;
     this.trackMetrics = trackMetrics;
