@@ -7,14 +7,12 @@ public class Active implements WorkItemState {
   DateTime actualStart;
 
   public Active() {
-    actualStart = DateTimeFactory.now();
+    actualStart = BusinessDateTimeFactory.now();
   }
 
   @Override
   public void tick(WorkItem item) {
-    DateTime now = DateTimeFactory.now();
-    DateTime end = item.start.plusMinutes(item.durationMinutes);
-
+    DateTime now = BusinessDateTimeFactory.now();
     int minutesPassed = Minutes.minutesBetween(actualStart, now).getMinutes();
 
     if (minutesPassed >= item.durationMinutes) {

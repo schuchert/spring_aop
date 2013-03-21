@@ -15,7 +15,7 @@ public class WorkItem_stateTransition_fromUnscheduled_Should {
     adjuster = new BusinessDateTimeAdjuster();
 
     resource = new Resource("foo");
-    workItem = new WorkItem("Name", DateTimeFactory.todayAt(10, 0), 10, resource);
+    workItem = new WorkItem("Name", BusinessDateTimeFactory.todayAt(10, 0), 10, resource);
   }
 
   @Test

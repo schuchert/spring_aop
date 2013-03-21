@@ -18,12 +18,12 @@ public class ScheduleSteps {
 
   @Before
   public void resetToSystemTime() {
-    DateTimeFactory.restoreSystemTime();
+    BusinessDateTimeFactory.restoreSystemTime();
   }
 
   @After
   public void restoreCurrentTime() {
-    DateTimeFactory.restoreSystemTime();
+    BusinessDateTimeFactory.restoreSystemTime();
   }
 
   @Given("^a system with no active work items$")
@@ -34,7 +34,7 @@ public class ScheduleSteps {
   @Given("^a work item named ([^ ]+) scheduled to start at (\\d+):(\\d+), last for (\\d+) minutes, and use ([^ ]+)$")
   public void a_work_item(String itemName, int startHour, int startMinutes, int durationMinutes, String resourceName) throws Throwable {
     Resource r = scheduleSystemExample.findOrAddResourceNamed(resourceName);
-    DateTime startDateTime = DateTimeFactory.todayAt(startHour, startMinutes);
+    DateTime startDateTime = BusinessDateTimeFactory.todayAt(startHour, startMinutes);
     WorkItem workItem = new WorkItem(itemName, startDateTime, durationMinutes, r);
     scheduleSystemExample.add(workItem);
   }
@@ -46,13 +46,13 @@ public class ScheduleSteps {
 
   @When("^now is (\\d+):(\\d+)$")
   public void now_is(int hour, int minute) {
-    DateTimeFactory.setTimeTo(hour, minute);
+    BusinessDateTimeFactory.setTimeTo(hour, minute);
     scheduleSystemExample.recalculate();
   }
 
   @Then("^there should be no active items$")
   public void there_should_be_no_active_items() throws Throwable {
-    assertThat(scheduleSystemExample.workItemsIn(Active.class).size(), is(new Integer(0)));
+    assertThat(scheduleSystemExample.workItemsIn(Active.class).size(), is(0));
   }
 
   @Then("^([^ ]+) should be ([^ ]+)$")

@@ -10,26 +10,17 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
 
 public class BusinessDateTimeAdjusterShould {
+  private BusinessDateTimeAdjuster adjuster;
+
   @Before
   public void setTheTime() {
-    new BusinessDateTimeAdjuster().setTimeTo(10, 17);
+    adjuster = new BusinessDateTimeAdjuster();
+    adjuster.setTimeTo(10, 17);
   }
 
   @After
   public void resetTheTime() {
-    new BusinessDateTimeAdjuster().resetToSystemTime();
-  }
-
-  @Test
-  public void beResettable() throws Exception {
-    DateTime before = new DateTime();
-    new BusinessDateTimeAdjuster().resetToSystemTime();
-    DateTime after = new DateTime();
-    if (after.equals(before)) {
-      Thread.sleep(10);
-      after = new DateTime();
-    }
-    assertNotEquals(after, before);
+    adjuster.resetToSystemTime();
   }
 
   @Test
@@ -40,8 +31,20 @@ public class BusinessDateTimeAdjusterShould {
 
   @Test
   public void beAbleToSetCurrentDateTimeWithinFactory() {
-    DateTime dateTime = DateTimeFactory.now();
+    DateTime dateTime = BusinessDateTimeFactory.now();
     validateTime(dateTime);
+  }
+
+  @Test
+  public void beResettable() throws Exception {
+    DateTime before = new DateTime();
+    adjuster.resetToSystemTime();
+    DateTime after = new DateTime();
+    if (after.equals(before)) {
+      Thread.sleep(10);
+      after = new DateTime();
+    }
+    assertNotEquals(after, before);
   }
 
   private void validateTime(DateTime dateTime) {

@@ -15,7 +15,7 @@ public class WorkItem_stateTransition_fromPending_Should {
     adjuster = new BusinessDateTimeAdjuster();
 
     resource = new Resource("foo");
-    workItem = new WorkItem("Name", DateTimeFactory.todayAt(10, 0), 10, resource);
+    workItem = new WorkItem("Name", BusinessDateTimeFactory.todayAt(10, 0), 10, resource);
     workItem.setState(new Pending());
   }
 
@@ -28,7 +28,7 @@ public class WorkItem_stateTransition_fromPending_Should {
 
   @Test
   public void activateAtTime() {
-    adjuster.setTimeTo(10,00);
+    adjuster.setTimeTo(10,0);
     workItem.tick();
     assertEquals(Active.class, workItem.getState().getClass());
   }

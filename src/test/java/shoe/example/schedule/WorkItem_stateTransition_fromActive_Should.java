@@ -18,7 +18,7 @@ public class WorkItem_stateTransition_fromActive_Should {
     adjuster = new BusinessDateTimeAdjuster();
 
     resource = new Resource("foo");
-    workItem = new WorkItem("Name", DateTimeFactory.todayAt(START_HOUR, START_MIN), DURATION, resource);
+    workItem = new WorkItem("Name", BusinessDateTimeFactory.todayAt(START_HOUR, START_MIN), DURATION, resource);
 
   }
 
