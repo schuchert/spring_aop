@@ -7,6 +7,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CorrelationIdTest {
+  CorrelationId id = new CorrelationId();
+
   int id(String correlationId) {
     return Integer.parseInt(correlationId.split("[.]")[0]);
   }
@@ -17,74 +19,74 @@ public class CorrelationIdTest {
 
   @Test
   public void initialLevelIs1() {
-    CorrelationId.enter();
+    id.enter();
 
     try {
-      assertThat(level(CorrelationId.get()), is(1));
+      assertThat(level(id.get()), is(1));
     } finally {
-      CorrelationId.exit();
+      id.exit();
     }
   }
 
   @Test
   public void enterIncrements() {
-    CorrelationId.enter();
-    CorrelationId.enter();
+    id.enter();
+    id.enter();
 
     try {
-      assertThat(level(CorrelationId.get()), is(2));
+      assertThat(level(id.get()), is(2));
     } finally {
-      CorrelationId.exit();
-      CorrelationId.exit();
+      id.exit();
+      id.exit();
     }
 
   }
 
   @Test(expected = RuntimeException.class)
   public void cannotGetAfterLastExit() {
-    CorrelationId.enter();
-    CorrelationId.exit();
-    CorrelationId.get();
+    id.enter();
+    id.exit();
+    id.get();
   }
 
   @Test(expected = RuntimeException.class)
   public void exitBeforeEnterFails() {
-    CorrelationId.exit();
+    id.exit();
   }
 
   @Test
   public void enterInAnotherThreadDoesNotChangeThisThread() throws Exception {
-    CorrelationId.enter();
-    String original = CorrelationId.get();
+    id.enter();
+    String original = id.get();
 
     Thread thread = new Thread(new Runnable() {
       public void run() {
-        CorrelationId.enter();
-        CorrelationId.exit();
+        id.enter();
+        id.exit();
       }
     });
     thread.start();
     thread.join();
 
     try {
-      assertThat(CorrelationId.get(), is(original));
+      assertThat(id.get(), is(original));
     } finally {
-      CorrelationId.exit();
+      id.exit();
     }
   }
 
   @Test
   public void idsInDifferentThreadsAreNotEqual() throws Exception {
-    CorrelationId.enter();
-    final int firstThreadId = id(CorrelationId.get());
+    id.enter();
+    final int firstThreadId = id(id.get());
 
     final boolean[] sameId = {true};
 
     Thread thread = new Thread(new Runnable() {
       public void run() {
-        CorrelationId.enter();
-        sameId[0] = firstThreadId == id(CorrelationId.get());
-        CorrelationId.exit();
+        id.enter();
+        sameId[0] = firstThreadId == id(id.get());
+        id.exit();
       }
     });
 
@@ -94,7 +96,7 @@ public class CorrelationIdTest {
     try {
       assertFalse(sameId[0]);
     } finally {
-      CorrelationId.exit();
+      id.exit();
     }
   }
 }

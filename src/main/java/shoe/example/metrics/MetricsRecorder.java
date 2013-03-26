@@ -23,6 +23,7 @@ public class MetricsRecorder {
   private final String className;
   private final String methodName;
   private final TrackMetrics trackMetrics;
+  private CorrelationId correlationId;
 
   public MetricsRecorder(TrackMetrics trackMetrics, String className, String methodName) {
     this.className = className;
@@ -31,7 +32,8 @@ public class MetricsRecorder {
   }
 
   public void enter() {
-    CorrelationId.enter();
+    correlationId = new CorrelationId();
+    correlationId.enter();
     startTime = System.currentTimeMillis();
 
     if (trackMetrics.isEnabled()) {
@@ -40,7 +42,7 @@ public class MetricsRecorder {
       context = responses.time();
     }
 
-    SystemLoggerFactory.get(className).info("start : %s-%s", methodName, CorrelationId.get());
+    SystemLoggerFactory.get(className).info("start : %s-%s", methodName, correlationId.get());
   }
 
   public void exit(boolean success) {
@@ -51,8 +53,8 @@ public class MetricsRecorder {
     stopTime = System.currentTimeMillis();
 
     String result = success ? "finish" : "failure";
-    SystemLoggerFactory.get(className).info("%7s: %s-%s(%dms)", result, methodName, CorrelationId.get(), duration());
-    CorrelationId.exit();
+    SystemLoggerFactory.get(className).info("%7s: %s-%s(%dms)", result, methodName, correlationId.get(), duration());
+    correlationId.exit();
   }
 
   private long duration() {

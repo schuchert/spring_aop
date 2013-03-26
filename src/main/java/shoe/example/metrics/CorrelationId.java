@@ -7,7 +7,7 @@ public class CorrelationId {
     private static ThreadLocal<Integer> id = new ThreadLocal<Integer>();
     private static ThreadLocal<Integer> level = new ThreadLocal<Integer>();
 
-    public static void enter() {
+    public void enter() {
         if (id.get() == null) {
             id.set(uniqueId.getAndIncrement());
             level.set(0);
@@ -15,7 +15,7 @@ public class CorrelationId {
         level.set(level.get() + 1);
     }
 
-    public static String get() {
+    public String get() {
         if (id.get() == null) {
             throw new RuntimeException("get called outside of enter/exit sequence");
         }
@@ -23,7 +23,7 @@ public class CorrelationId {
         return String.format("%d.%d", id.get(), level.get());
     }
 
-    public static void exit() {
+    public void exit() {
         if (id.get() != null) {
             level.set(level.get() - 1);
             if (level.get() < 1) {

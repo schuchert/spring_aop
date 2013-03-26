@@ -37,7 +37,7 @@ public class InformEntriesAndExits {
     String className = jp.getSignature().getDeclaringTypeName();
     String methodName = jp.getSignature().getName();
 
-    MetricRecorder metricRecorder = new MetricRecorder(trackMetrics, className, methodName);
+    MetricsRecorder metricRecorder = new MetricsRecorder(trackMetrics, className, methodName);
 
     boolean success = false;
     try {
