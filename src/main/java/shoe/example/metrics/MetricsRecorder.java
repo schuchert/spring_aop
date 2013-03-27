@@ -4,6 +4,7 @@ import com.yammer.metrics.Metrics;
 import com.yammer.metrics.core.MetricName;
 import com.yammer.metrics.core.Timer;
 import com.yammer.metrics.core.TimerContext;
+import shoe.example.log.SystemLogger;
 import shoe.example.log.SystemLoggerFactory;
 import shoe.example.toggles.TrackMetrics;
 
@@ -42,7 +43,8 @@ public class MetricsRecorder {
       context = responses.time();
     }
 
-    SystemLoggerFactory.get(className).info("start : %s-%s", methodName, correlationId.get());
+    SystemLogger logger = SystemLoggerFactory.get(className);
+    logger.info("start : %s-%s", methodName, correlationId.get());
   }
 
   public void exit(boolean success) {

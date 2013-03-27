@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore( {"javax.management.*"})
-@PrepareForTest({MetricsRecorder.class, CorrelationId.class, SystemLoggerFactory.class})
+@PrepareForTest({MetricsRecorder.class, SystemLoggerFactory.class})
 public class MetricsRecorderTest {
   @Mock
   SystemLogger logger;
