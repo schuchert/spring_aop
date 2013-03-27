@@ -1,5 +1,7 @@
 package shoe.example.schedule;
 
+import org.joda.time.DateTime;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,16 +26,12 @@ public class ScheduleSystemExample {
     return resource;
   }
 
-  public void add(WorkItem workItem) {
-    workItems.add(workItem);
-  }
-
   public void setConflictResolutionTo(ConflictResolutionApproach conflictResolutionApproach) {
     this.conflictResolutionApproach = conflictResolutionApproach;
   }
 
   public boolean workItemIs(String workItemName, Class<? extends WorkItemState> workItemState) {
-    WorkItem item = itemNamed(workItemName);
+    WorkItem item = workItemNamed(workItemName);
     return item.stateIs(workItemState);
   }
 
@@ -46,7 +44,7 @@ public class ScheduleSystemExample {
     return null;
   }
 
-  private WorkItem itemNamed(String workItemName) {
+  public WorkItem workItemNamed(String workItemName) {
     for (WorkItem current : workItems) {
       if (current.nameEquals(workItemName)) {
         return current;
@@ -73,5 +71,11 @@ public class ScheduleSystemExample {
         conflictResolutionApproach.apply(e.workItem, current);
       }
     }
+  }
+
+  public void scheduleNewWorkItem(String itemName, DateTime startDateTime, int durationMinutes, String resourceName) {
+    Resource resource = findOrAddResourceNamed(resourceName);
+    WorkItem workItem = new WorkItem(itemName, startDateTime, durationMinutes, resource);
+    workItems.add(workItem);
   }
 }
