@@ -3,8 +3,8 @@ Feature: Handling Scheduling Conflicts
 
   Background:
     Given a system with no active work items
-    And a work item named I1 scheduled to start at 10:00, last for 15 minutes, and use R1
-    And a work item named I2 scheduled to start at 10:10, last for 5 minutes, and use R1
+    And a work item named Megatron_Torso scheduled to start at 10:00, last for 15 minutes, and use 3d_printer_1
+    And a work item named Megatron_Head scheduled to start at 10:10, last for 5 minutes, and use 3d_printer_1
     And a first one wins conflict resolution approach
 
   Scenario: Nothing going on
@@ -12,22 +12,22 @@ Feature: Handling Scheduling Conflicts
     Then there should be no active items
 
   Scenario: One item active
-    When now is 10:01
-    Then I1 should be active
+    Given now is 9:59
+    When the time becomes 10:01
+    Then Megatron_Torso should be active
 
   Scenario: Conflict Resolved
     When now is 10:10
-    Then I1 should be active
-    And I2 should be blocked
+    Then Megatron_Torso should be active
+    And Megatron_Head should be blocked
 
   Scenario: Delayed Start
     Given now is 10:00
-    When now is 10:16
-    Then I1 should be completed
-    And I2 should be active
+    When the time becomes 10:16
+    Then Megatron_Torso should be completed
+    And Megatron_Head should be active
 
-  Scenario: Delayed finished
-    Given now is 10:00
-    And now is 10:15
-    When now is 10:21
-    Then I2 should be completed
+  Scenario: Delayed work item finishes late
+    Given now is 9:59
+    When the time becomes 10:21
+    Then Megatron_Head should be completed

@@ -9,9 +9,7 @@ import org.joda.time.DateTime;
 import shoe.example.schedule.*;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class ScheduleSteps {
   ScheduleSystemExample scheduleSystemExample;
@@ -42,6 +40,17 @@ public class ScheduleSteps {
   @Given("^a first one wins conflict resolution approach$")
   public void a_first_one_wins_confilict_resolution_approach() {
     scheduleSystemExample.setConflictResolutionTo(new FirstOneWins());
+  }
+
+  @When("the time becomes (\\d+):(\\d+)$")
+  public void the_time_becomes(int hour, int minute) {
+    DateTime currentTime = BusinessDateTimeFactory.now();
+    DateTime endDateTime = BusinessDateTimeFactory.todayAt(hour, minute);
+    while(endDateTime.isAfter(currentTime)) {
+      currentTime = currentTime.plusMinutes(1);
+      BusinessDateTimeFactory.setTimeTo(currentTime.getHourOfDay(), currentTime.getMinuteOfHour());
+      scheduleSystemExample.recalculate();
+    }
   }
 
   @When("^now is (\\d+):(\\d+)$")
