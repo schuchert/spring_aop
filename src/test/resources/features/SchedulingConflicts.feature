@@ -14,7 +14,7 @@ Feature: Handling Scheduling Conflicts
   Scenario: One item active
     Then Megatron_Torso should be active at 10:01
 
-  Scenario: Conflict Resolved
+  Scenario: Conflict Handled
     Then Megatron_Torso should be active at 10:10
     And Megatron_Head should be blocked
 

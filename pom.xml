@@ -13,13 +13,20 @@
         <aspectj.version>1.6.12</aspectj.version>
         <jetty-version>8.1.8.v20121106</jetty-version>
         <jersey-version>1.12</jersey-version>
+        <cukes-version>1.1.1</cukes-version>
     </properties>
 
     <repositories>
+        <!--<repository>-->
+        <!--<id>releases</id>-->
+        <!--<name>Releases</name>-->
+        <!--<url>https://oss.sonatype.org/content/repositories/releases</url>-->
+        <!--</repository>-->
+
         <repository>
-            <id>releases</id>
-            <name>Releases</name>
-            <url>https://oss.sonatype.org/content/repositories/releases</url>
+            <id>maven repo</id>
+            <name>maven repo</name>
+            <url>http://mvnrepository.com/artifact/</url>
         </repository>
 
         <repository>
@@ -277,28 +284,21 @@
 
         <dependency>
             <groupId>info.cukes</groupId>
-            <artifactId>cucumber-jvm</artifactId>
-            <version>1.1.1</version>
+            <artifactId>cucumber-core</artifactId>
+            <version>${cukes-version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-junit</artifactId>
-            <version>1.1.1</version>
+            <version>${cukes-version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>1.1.1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-html</artifactId>
-            <version>0.2.2</version>
+            <version>${cukes-version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -329,26 +329,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.0</version>
                 <inherited>true</inherited>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.glassfish</groupId>
-                <artifactId>maven-glassfish-plugin</artifactId>
-            </plugin>
         </plugins>
     </build>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>m2.java.net</id>
-            <name>Java.net Maven 2 Repository</name>
-            <url>http://download.java.net/maven/2</url>
-            <layout>default</layout>
-        </pluginRepository>
-    </pluginRepositories>
-
 </project>
