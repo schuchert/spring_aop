@@ -55,7 +55,8 @@ public class MetricsRecorder {
     stopTime = System.currentTimeMillis();
 
     String result = success ? "finish" : "failure";
-    SystemLoggerFactory.get(className).info("%7s: %s-%s(%dms)", result, methodName, correlationId.get(), duration());
+    SystemLogger logger = SystemLoggerFactory.get(className);
+    logger.info("%7s: %s-%s(%dms)", result, methodName, correlationId.get(), duration());
     correlationId.exit();
   }
 
