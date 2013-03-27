@@ -1,11 +1,17 @@
 package shoe.example.logging;
 
 import org.junit.Test;
+import shoe.example.log.SystemLoggerFactory;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class JdkLoggingExample {
+  static {
+    SystemLoggerFactory.setLevel("org", Level.SEVERE);
+    SystemLoggerFactory.setLevel("shoe", Level.SEVERE);
+  }
+
   @Test
   public void unnecessaryStringConcat() {
     Logger logger = Logger.getLogger(getClass().getName());
