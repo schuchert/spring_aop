@@ -11,5 +11,5 @@ import shoe.example.server.EmbeddedJetty;
 
 @RunWith(Cucumber.class)
 @Cucumber.Options(format = {"pretty", "html:target/cucumber-html-report"}, features = "src/test/resources", glue = "shoe/example/features/step_definitions")
-public class LightweightCucumberExecutor {
+public class LightweightCucumberExecutorTest {
 }
