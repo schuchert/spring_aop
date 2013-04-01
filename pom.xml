@@ -13,7 +13,7 @@
         <aspectj.version>1.6.12</aspectj.version>
         <jetty-version>8.1.8.v20121106</jetty-version>
         <jersey-version>1.12</jersey-version>
-        <cukes-version>1.1.1</cukes-version>
+        <cukes-version>1.1.2</cukes-version>
     </properties>
 
     <repositories>
